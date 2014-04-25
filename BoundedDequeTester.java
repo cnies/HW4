@@ -1,3 +1,8 @@
+/*
+NAME: Christopher Nies
+ID: A11393577
+LOGIN: cs12sfl
+*/
 import junit.framework.TestCase;
 
 
@@ -57,7 +62,47 @@ public class BoundedDequeTester extends TestCase {
 		assertTrue(0 == empty.size());
 		assertTrue(1 == one.removeBack());
 		assertTrue(0 == one.size());
+		assertEquals(one.getFront(), one.getBack());
 	}
+	
+	//Tests addFront method in simple cases
+	public void testAddFront(){
+		one.addFront(5);
+		assertEquals(new Integer(5), one.peekFront());
+		assertEquals(15, one.getFront());
+		fullMinusOne.addFront(50);
+		assertEquals(15, fullMinusOne.size());
+		assertEquals(new Integer(50), fullMinusOne.peekFront());
+		assertEquals(15, fullMinusOne.getFront());
+		assertTrue(!fullMinusOne.addFront(new Integer(17)));
+	}
+
+	public void testFull(){
+		fullMinusOne.addBack(50);
+		assertTrue(!fullMinusOne.addFront(45));
+		for (int i = 0; i<fullMinusOne.capacity(); i++)
+			fullMinusOne.removeFront();
+		assertEquals(0, fullMinusOne.size());
+		fullMinusOne.addBack(50);
+		fullMinusOne.addFront(5);
+		fullMinusOne.addBack(4);
+		fullMinusOne.addBack(2);
+		assertEquals(new Integer(5), fullMinusOne.removeFront());
+		assertEquals(new Integer(2), fullMinusOne.removeBack());
+		assertEquals(new Integer(4), fullMinusOne.removeBack());
+		assertEquals(new Integer(50), fullMinusOne.removeFront());
+	}
+
+	//Tests peeks on their own
+	public void testPeekFront(){
+		assertEquals(1, one.peekFront().intValue());
+		assertEquals(1, one.peekBack().intValue());
+		one.addFront(3);
+		one.addBack(5);
+		assertEquals(3, one.peekFront().intValue());
+		assertEquals(5, one.peekBack().intValue());
+}
+
 
 	protected void tearDown() throws Exception {
 		super.tearDown();

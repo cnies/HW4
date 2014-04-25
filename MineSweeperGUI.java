@@ -1,3 +1,8 @@
+/*
+NAME: Christopher Nies
+ID: A11393577
+LOGIN: cs12sfl
+*/
 /** MineSweeperGUI.java
  * 
  * A program to play the game of MineSweeper via a graphical user interface.
@@ -49,7 +54,7 @@ public class MineSweeperGUI extends JFrame implements ActionListener {
 	private final int CELL_SIZE = 25;
 	
 	/** The animation delay */
-	private final int DELAY = 150;
+	private final int DELAY = 50;
 	
 	/** Button labels */
 	private final String NEW_GAME = "New Game";
@@ -231,11 +236,10 @@ public class MineSweeperGUI extends JFrame implements ActionListener {
 	/** Expose cells from the one clicked using breadth first search */
 	public BoundedQueue<MineCell> exposeCellsBFS( int row, int col )
 	{
-		return null;
 		// TODO: Remove the line above and uncomment the code below when 
 		// you have developed and tested your Queue12 class. 
 		
-		/*
+		
 		BoundedQueue<MineCell> toReturn = new Queue12<MineCell>( cells.length*cells[0].length);
 		
 		BoundedQueue<MineCell> theQ = new Queue12<MineCell>(cells.length*cells[0].length);
@@ -264,7 +268,7 @@ public class MineSweeperGUI extends JFrame implements ActionListener {
 
 		}
 		return toReturn; 
-		*/
+		
 	}
 
 	/** Expose cells from the one clicked using depth first search */
@@ -273,8 +277,32 @@ public class MineSweeperGUI extends JFrame implements ActionListener {
 	// one to store the cells to return in the correct order.
 	public BoundedQueue<MineCell> exposeCellsDFS( int row, int col )
 	{
-		return null;
-		// TODO: Remove the line above and write this method
+		BoundedQueue<MineCell> toReturn = new Queue12<MineCell>(cells.length*cells[0].length);
+		BoundedStack<MineCell> theS = new Stack12<MineCell>(cells.length*cells[0].length);
+		theS.push(cells[row][col]);
+		while ( theS.size() > 0 ) {
+			MineCell theCell = theS.pop();
+			theCell.setVisited();
+			toReturn.enqueue( theCell );
+			if ( theCell.getNeighbors() == 0 ) {
+				// Find the cell's neighbors and put them in the stack if they are 0
+				int cellRow = theCell.getRow();
+				int cellCol = theCell.getColumn();
+				for ( int r = cellRow-1; r <= cellRow+1; r++ ) {
+					for ( int c = cellCol-1; c <= cellCol+1; c++ ) {
+						if ( !(r==row && c==col)
+								&& r >= 0 && c >= 0 && r < cells.length && c < cells[0].length ) {
+							MineCell nextCell = cells[r][c];
+							if (!nextCell.isVisited()) {
+								theS.push( nextCell );
+							}
+						}
+					}
+				}
+			}
+
+		}
+		return toReturn;
 	}
 
 	/* Check if the game is already won */

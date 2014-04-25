@@ -1,3 +1,8 @@
+/*
+NAME: Christopher Nies
+ID: A11393577
+LOGIN: cs12sfl
+*/
 import java.util.*;
 
 public class Deque12<E> implements BoundedDeque<E>{
@@ -7,7 +12,8 @@ public class Deque12<E> implements BoundedDeque<E>{
 	private int back;
 	private ArrayList<E> elementArray;
 
-	public Deque12(int capacityIn){
+	public Deque12(int capacityIn) throws IllegalArgumentException{
+		if (capacityIn<0) throw new IllegalArgumentException();
 		elementArray = new ArrayList<E>();
 		for (int i = 0; i<=capacityIn; i++){
 			elementArray.add(null);
@@ -34,9 +40,25 @@ public class Deque12<E> implements BoundedDeque<E>{
 		return true;
 	}
 
+	//TODO REMOVE XXX
+	public void printArray(){
+		for (int i =0; i<elementArray.size(); i++)
+			System.out.println(elementArray.get(i));
+	}
 	public boolean addFront(E element) {
-		// TODO Auto-generated method stub
-		return false;
+		if (element == null)
+			throw new NullPointerException();
+		if (size == capacity)
+			return false;
+		if (elementArray.get(front)==null){
+			elementArray.set(front, element);
+			size++;
+			return true;
+		}
+		front = (front +elementArray.size()-1)%elementArray.size();
+		elementArray.set(front, element);
+		size++;
+		return true;
 	}
 
 	public int capacity() {
@@ -48,21 +70,31 @@ public class Deque12<E> implements BoundedDeque<E>{
 	}
 
 	public E peekFront() {
-		// TODO Auto-generated method stub
-		return null;
+		return elementArray.get(front);
 	}
 
 	public E removeBack() {
 		E toRemove = elementArray.get(back);
 		elementArray.set(back, null);
-		back = (back-1)%elementArray.size();
+		if (size>1) back=(back+elementArray.size()-1)%elementArray.size();
 		if (size>0) size--;
 		return toRemove;
 	}
+	//TODO REMOVE XXX
+	public int getBack(){
+		return back;
+	}
+	//TODO REMOVE XXX
+	public int getFront(){
+		return front;
+	}
 
 	public E removeFront() {
-		// TODO Auto-generated method stub
-		return null;
+		E toRemove = elementArray.get(front);
+		elementArray.set(front, null);
+		if (size>1) front=(front+1)%elementArray.size();
+		if (size>0) size--;
+		return toRemove;
 	}
 
 	public int size() {
