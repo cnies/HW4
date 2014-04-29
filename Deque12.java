@@ -40,11 +40,6 @@ public class Deque12<E> implements BoundedDeque<E>{
 		return true;
 	}
 
-	//TODO REMOVE XXX
-	public void printArray(){
-		for (int i =0; i<elementArray.size(); i++)
-			System.out.println(elementArray.get(i));
-	}
 	public boolean addFront(E element) {
 		if (element == null)
 			throw new NullPointerException();
@@ -79,14 +74,6 @@ public class Deque12<E> implements BoundedDeque<E>{
 		if (size>1) back=(back+elementArray.size()-1)%elementArray.size();
 		if (size>0) size--;
 		return toRemove;
-	}
-	//TODO REMOVE XXX
-	public int getBack(){
-		return back;
-	}
-	//TODO REMOVE XXX
-	public int getFront(){
-		return front;
 	}
 
 	public E removeFront() {

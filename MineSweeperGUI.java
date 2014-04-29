@@ -241,9 +241,7 @@ public class MineSweeperGUI extends JFrame implements ActionListener {
 		
 		
 		BoundedQueue<MineCell> toReturn = new Queue12<MineCell>( cells.length*cells[0].length);
-		
 		BoundedQueue<MineCell> theQ = new Queue12<MineCell>(cells.length*cells[0].length);
-
 		theQ.enqueue(cells[row][col]);
 		while ( theQ.size() > 0 ) {
 			MineCell theCell = theQ.dequeue();
