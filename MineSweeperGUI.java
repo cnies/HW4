@@ -54,7 +54,7 @@ public class MineSweeperGUI extends JFrame implements ActionListener {
 	private final int CELL_SIZE = 25;
 	
 	/** The animation delay */
-	private final int DELAY = 50;
+	private final int DELAY = 5;
 	
 	/** Button labels */
 	private final String NEW_GAME = "New Game";
@@ -231,7 +231,7 @@ public class MineSweeperGUI extends JFrame implements ActionListener {
 
         // Expose the cells slowly
         exposeSlowly( );
-    }
+    } 
 
 	/** Expose cells from the one clicked using breadth first search */
 	public BoundedQueue<MineCell> exposeCellsBFS( int row, int col )
@@ -275,8 +275,13 @@ public class MineSweeperGUI extends JFrame implements ActionListener {
 	// one to store the cells to return in the correct order.
 	public BoundedQueue<MineCell> exposeCellsDFS( int row, int col )
 	{
-		BoundedQueue<MineCell> toReturn = new Queue12<MineCell>(cells.length*cells[0].length);
-		BoundedStack<MineCell> theS = new Stack12<MineCell>(cells.length*cells[0].length);
+		BoundedQueue<MineCell> toReturn =
+			new Queue12<MineCell>(cells.length*cells[0].length);
+		//Yes, I realize that there is wasted memory here. But this algorithm
+		//repeats a lot of cells, so I need the extra space. In the real world,
+		//I would probably use a stack without a set size.
+		BoundedStack<MineCell> theS =
+			new Stack12<MineCell>(cells.length*cells.length*cells[0].length);
 		theS.push(cells[row][col]);
 		while ( theS.size() > 0 ) {
 			MineCell theCell = theS.pop();

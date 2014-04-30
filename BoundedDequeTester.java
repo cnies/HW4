@@ -62,18 +62,16 @@ public class BoundedDequeTester extends TestCase {
 		assertTrue(0 == empty.size());
 		assertTrue(1 == one.removeBack());
 		assertTrue(0 == one.size());
-		assertEquals(one.getFront(), one.getBack());
+		assertEquals(one.peekFront(), one.peekBack());
 	}
 	
 	//Tests addFront method in simple cases
 	public void testAddFront(){
 		one.addFront(5);
 		assertEquals(new Integer(5), one.peekFront());
-		assertEquals(15, one.getFront());
 		fullMinusOne.addFront(50);
 		assertEquals(15, fullMinusOne.size());
 		assertEquals(new Integer(50), fullMinusOne.peekFront());
-		assertEquals(15, fullMinusOne.getFront());
 		assertTrue(!fullMinusOne.addFront(new Integer(17)));
 	}
 
@@ -103,6 +101,22 @@ public class BoundedDequeTester extends TestCase {
 		assertEquals(5, one.peekBack().intValue());
 }
 
+	public void testAddBackAgain(){
+		int j = 14;
+		while (full.peekBack() != null){
+			assertEquals(new Integer(j), full.removeBack());
+			j--;
+		}
+		assertEquals(0, full.size());
+		for (int i = 0; i<15;i++){
+			full.addBack(new Integer(i));
+		}
+		j=14;
+		while (full.peekBack() != null){
+			assertEquals(new Integer(j), full.removeBack());
+			j--;
+		}
+	}
 
 	protected void tearDown() throws Exception {
 		super.tearDown();
